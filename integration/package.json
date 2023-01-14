@@ -1,0 +1,23 @@
+{
+  "name": "integration",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "prepare-packages": "yarn && cd ./projects/basic && yarn",
+    "open-tests": "cypress open",
+    "run-tests": "wait-on http://localhost:9000 && cypress run --record --key a7d33ff7-5893-4158-9ec2-f71b32138c8b",
+    "kill-app": "node ./kill.js",
+    "prepare-basic-app": "node ./kill.js && cd ./projects/basic && node ../../../dist/server/index.js --port=9000 --debug",
+    "integration-app": "concurrently --success=last \"yarn prepare-basic-app\"  \"yarn run-tests\"",
+    "run-integration": "yarn integration-app",
+    "run-in-ci": "yarn prepare-packages && yarn run-integration"
+  },
+  "dependencies": {
+    "concurrently": "^4.1.0",
+    "cypress": "^3.2.0",
+    "cypress-testing-library": "^2.3.6",
+    "fkill": "^6.0.0",
+    "wait-on": "^3.2.0"
+  }
+}
